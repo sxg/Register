@@ -6,10 +6,12 @@ const BrowserWindow = electron.BrowserWindow
 
 const path = require('path')
 const url = require('url')
+const fs = require('fs')
 
 // Keep a global reference of the window object, if you don't, the window will
 // be closed automatically when the JavaScript object is garbage collected.
 let mainWindow
+let tempPath
 
 function createWindow () {
   // Create the browser window.
@@ -27,10 +29,22 @@ function createWindow () {
 
   // Emitted when the window is closed.
   mainWindow.on('closed', function () {
+    fs.readdirSync(tempPath).forEach(function(file) {
+      filePath = path.join(tempPath, file)
+      fs.unlinkSync(filePath)
+    })
+
     // Dereference the window object, usually you would store windows
     // in an array if your app supports multi windows, this is the time
     // when you should delete the corresponding element.
+   fs.rmdirSync(tempPath)
     mainWindow = null
+  })
+
+  mainWindow.webContents.on('did-finish-load', () => {
+    tempPath = path.join(app.getPath('temp'), 'Register')
+    fs.mkdirSync(tempPath)
+    mainWindow.webContents.send('sync-message', tempPath)
   })
 }
 
