@@ -8,7 +8,7 @@ const ipcRenderer = require('electron').ipcRenderer
 const path = require('path')
 const spawn = require('child_process').spawn
 
-ipcRenderer.once('sync-message', (event, tempPath) => {
+ipcRenderer.once('temp-path-message', (event, tempPath) => {
     console.log(tempPath)
     pyRegister = spawn('python3', [path.join(__dirname, 'register.py'), tempPath])
     pyRegister.stdout.on('data', data => {
