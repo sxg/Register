@@ -8,16 +8,42 @@
       integrity="sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8="
       crossorigin="anonymous"></script>
     <script src="semantic/dist/semantic.min.js"></script>
-    <title>Hello World!</title>
+    <title>Register</title>
   </head>
   <body>
-    <h1>Hello World!</h1>
-    <!-- All of the Node.js APIs are available in this renderer process. -->
-    We are using Node.js <script>document.write(process.versions.node)</script>,
-    Chromium <script>document.write(process.versions.chrome)</script>,
-    and Electron <script>document.write(process.versions.electron)</script>.
+    <div class="ui container">
+      <div class="ui one column centered padded grid">
+        <div class="column centered row">
+          <h1 class="ui header">Register Images</h1>
 
-    <button id="open-file-manager">Open</button>
+          <div class="ui hidden divider"></div>
+
+          <div class="ui action input">
+            <input placeholder="Reconstructed images..." type="text" style="pointer-events:none">
+            <button id="open-file-manager" class="ui button">Browse</button>
+          </div>
+
+          <div class="ui hidden divider"></div>
+
+          <div class="ui action input">
+            <input placeholder="Anchor frames..." type="text" style="pointer-events:none">
+            <button class="ui button">Browse</button>
+          </div>
+
+          <div class="ui hidden divider"></div>
+
+          <div class="ui action input">
+            <input placeholder="Output folder..." type="text" style="pointer-events:none">
+            <button class="ui button">Browse</button>
+          </div>
+
+          <div class="ui hidden divider"></div>
+
+          <button class="ui green button">Register Images</button>
+
+        </div>
+      </div>
+    </div>
 
     <script>
       // You can also require other files to run in this process
