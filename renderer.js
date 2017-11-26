@@ -6,17 +6,23 @@ const dialog = require('electron').remote.dialog
 const ipcRenderer = require('electron').ipcRenderer
 
 const path = require('path')
-const spawn = require('child_process').spawn
+const execFile = require('child_process').execFile
+
+const imgPath = "/Users/Satyam/Dropbox/Research/Datasets/IBD/Bowel/images.mat"
+const imgName = "images"
+const anchorPath = "/Users/Satyam/Dropbox/Research/Datasets/IBD/Bowel/anchors.mat"
+const anchorName = "anchor_vols"
+const outputPath = "/Users/Satyam/Downloads"
 
 ipcRenderer.once('temp-path-message', (event, tempPath) => {
     console.log(tempPath)
-    // pyRegister = spawn('python3', [path.join(__dirname, 'register.py'), tempPath])
-    // pyRegister.stdout.on('data', data => {
-    //     console.log(`stdout: ${data}`)
-    // })
-    // pyRegister.stderr.on('data', data => {
-    //     console.log(`stderr: ${data}`)
-    // })
+    pyRegister = execFile(path.join(__dirname, 'dist', 'register', 'register'),
+        [tempPath, imgPath, imgName, anchorPath, anchorName, outputPath], 
+            (err, stdout, stderr) => {
+                console.log(err)
+                console.log(stdout)
+                console.log(stderr)
+            })
 })
 
 const reconImagesBtn = document.getElementById('button-images-file')
