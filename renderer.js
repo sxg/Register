@@ -3,6 +3,7 @@
 // All of the Node.js APIs are available in this process.
 
 const dialog = require('electron').remote.dialog
+const remote = require('electron').remote
 const ipcRenderer = require('electron').ipcRenderer
 
 const path = require('path')
@@ -14,8 +15,18 @@ const anchorPath = "/Users/Satyam/Dropbox/Research/Datasets/IBD/Bowel/anchors.ma
 const anchorName = "anchor_vols"
 const outputPath = "/Users/Satyam/Downloads"
 
-ipcRenderer.once('temp-path-message', (event, tempPath) => {
+let tempPath
+let imageInput
+let anchorInput
+let outputInput
+
+ipcRenderer.once('Message-TempPath', (event, message) => {
+    tempPath = message
     console.log(tempPath)
+})
+
+const registerBtn = document.getElementById('button-register')
+registerBtn.addEventListener('click', event => {
     pyRegister = execFile(path.join(__dirname, 'dist', 'register', 'register'),
         [tempPath, imgPath, imgName, anchorPath, anchorName, outputPath], 
             (err, stdout, stderr) => {
@@ -25,11 +36,36 @@ ipcRenderer.once('temp-path-message', (event, tempPath) => {
             })
 })
 
-const reconImagesBtn = document.getElementById('button-images-file')
-reconImagesBtn.addEventListener('click', function (event) {
-    dialog.showOpenDialog({properties: ['openFile']},
-    function(filePaths) {
-        const reconImagesInput = document.getElementById('input-images-file')
-        reconImagesInput.value = path.basename(filePaths[0])
+// Browse images button
+const imageBtn = document.getElementById('button-image-file')
+imageBtn.addEventListener('click', event => {
+    dialog.showOpenDialog(remote.getCurrentWindow(), {
+        filters: [{name: 'Image Dataset', extensions: ['mat', 'h5']}],
+        properties: ['openFile']
+    }, filePaths => {
+        imageInput = document.getElementById('input-image-file')
+        imageInput.value = path.basename(filePaths[0])
     })
+})
+
+// Browse anchors button
+const anchorBtn = document.getElementById('button-anchor-file')
+anchorBtn.addEventListener('click', event => {
+    dialog.showOpenDialog(remote.getCurrentWindow(), {
+        filters: [{name: 'Image Dataset', extensions: ['mat', 'h5']}],
+        properties: ['openFile']
+    }, filePaths => {
+        anchorInput = document.getElementById('input-anchor-file')
+        anchorInput.value = path.basename(filePaths[0])
+    })
+})
+
+// Browse output folder button
+const outputBtn = document.getElementById('button-output-folder')
+outputBtn.addEventListener('click', event => {
+    dialog.showOpenDialog(remote.getCurrentWindow(), {properties: ['openDirectory']}, 
+        filePaths => {
+            outputInput = document.getElementById('input-output-folder')
+            outputInput.value = path.basename(filePaths[0])
+        })
 })

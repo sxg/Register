@@ -44,7 +44,7 @@ function createWindow () {
   mainWindow.webContents.on('did-finish-load', () => {
     tempPath = path.join(app.getPath('temp'), 'Register')
     fs.mkdirSync(tempPath)
-    mainWindow.webContents.send('temp-path-message', tempPath)
+    mainWindow.webContents.send('Message-TempPath', tempPath)
   })
 }
 
