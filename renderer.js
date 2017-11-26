@@ -9,16 +9,16 @@ const ipcRenderer = require('electron').ipcRenderer
 const path = require('path')
 const execFile = require('child_process').execFile
 
-const imgPath = "/Users/Satyam/Dropbox/Research/Datasets/IBD/Bowel/images.mat"
-const imgName = "images"
-const anchorPath = "/Users/Satyam/Dropbox/Research/Datasets/IBD/Bowel/anchors.mat"
-const anchorName = "anchor_vols"
-const outputPath = "/Users/Satyam/Downloads"
-
 let tempPath
-let imageInput = document.getElementById('input-image-file')
-let anchorInput = document.getElementById('input-anchor-file')
-let outputInput = document.getElementById('input-output-folder')
+const imageFileInput = document.getElementById('input-image-file')
+const imageNameInput = document.getElementById('input-image-name')
+const anchorFileInput = document.getElementById('input-anchor-file')
+const anchorNameInput = document.getElementById('input-anchor-name')
+const outputFolderInput = document.getElementById('input-output-folder')
+
+let imagePath
+let anchorPath
+let outputPath
 
 ipcRenderer.once('Message-TempPath', (event, message) => {
     tempPath = message
@@ -32,7 +32,8 @@ imageBtn.addEventListener('click', event => {
         filters: [{name: 'Image Dataset', extensions: ['mat', 'h5']}],
         properties: ['openFile']
     }, filePaths => {
-        imageInput.value = path.basename(filePaths[0])
+        imageFileInput.value = path.basename(filePaths[0])
+        imagePath = filePaths[0]
     })
 })
 
@@ -43,7 +44,8 @@ anchorBtn.addEventListener('click', event => {
         filters: [{name: 'Image Dataset', extensions: ['mat', 'h5']}],
         properties: ['openFile']
     }, filePaths => {
-        anchorInput.value = path.basename(filePaths[0])
+        anchorFileInput.value = path.basename(filePaths[0])
+        anchorPath = filePaths[0]
     })
 })
 
@@ -52,15 +54,18 @@ const outputBtn = document.getElementById('button-output-folder')
 outputBtn.addEventListener('click', event => {
     dialog.showOpenDialog(remote.getCurrentWindow(), {properties: ['openDirectory']}, 
         filePaths => {
-            outputInput.value = path.basename(filePaths[0])
+            outputFolderInput.value = path.basename(filePaths[0])
+            outputPath = filePaths[0]
         })
 })
 
 //  Register button
 const registerBtn = document.getElementById('button-register')
 registerBtn.addEventListener('click', event => {
+    imageName = imageNameInput.value
+    anchorName = anchorNameInput.value
     pyRegister = execFile(path.join(__dirname, 'dist', 'register', 'register'),
-        [tempPath, imgPath, imgName, anchorPath, anchorName, outputPath], 
+        [tempPath, imagePath, imageName, anchorPath, anchorName, outputPath], 
             (err, stdout, stderr) => {
                 console.log(err)
                 console.log(stdout)
