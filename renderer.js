@@ -16,24 +16,13 @@ const anchorName = "anchor_vols"
 const outputPath = "/Users/Satyam/Downloads"
 
 let tempPath
-let imageInput
-let anchorInput
-let outputInput
+let imageInput = document.getElementById('input-image-file')
+let anchorInput = document.getElementById('input-anchor-file')
+let outputInput = document.getElementById('input-output-folder')
 
 ipcRenderer.once('Message-TempPath', (event, message) => {
     tempPath = message
     console.log(tempPath)
-})
-
-const registerBtn = document.getElementById('button-register')
-registerBtn.addEventListener('click', event => {
-    pyRegister = execFile(path.join(__dirname, 'dist', 'register', 'register'),
-        [tempPath, imgPath, imgName, anchorPath, anchorName, outputPath], 
-            (err, stdout, stderr) => {
-                console.log(err)
-                console.log(stdout)
-                console.log(stderr)
-            })
 })
 
 // Browse images button
@@ -43,7 +32,6 @@ imageBtn.addEventListener('click', event => {
         filters: [{name: 'Image Dataset', extensions: ['mat', 'h5']}],
         properties: ['openFile']
     }, filePaths => {
-        imageInput = document.getElementById('input-image-file')
         imageInput.value = path.basename(filePaths[0])
     })
 })
@@ -55,7 +43,6 @@ anchorBtn.addEventListener('click', event => {
         filters: [{name: 'Image Dataset', extensions: ['mat', 'h5']}],
         properties: ['openFile']
     }, filePaths => {
-        anchorInput = document.getElementById('input-anchor-file')
         anchorInput.value = path.basename(filePaths[0])
     })
 })
@@ -65,7 +52,18 @@ const outputBtn = document.getElementById('button-output-folder')
 outputBtn.addEventListener('click', event => {
     dialog.showOpenDialog(remote.getCurrentWindow(), {properties: ['openDirectory']}, 
         filePaths => {
-            outputInput = document.getElementById('input-output-folder')
             outputInput.value = path.basename(filePaths[0])
         })
+})
+
+//  Register button
+const registerBtn = document.getElementById('button-register')
+registerBtn.addEventListener('click', event => {
+    pyRegister = execFile(path.join(__dirname, 'dist', 'register', 'register'),
+        [tempPath, imgPath, imgName, anchorPath, anchorName, outputPath], 
+            (err, stdout, stderr) => {
+                console.log(err)
+                console.log(stdout)
+                console.log(stderr)
+            })
 })
