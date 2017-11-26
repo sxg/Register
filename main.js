@@ -15,7 +15,7 @@ let tempPath
 
 function createWindow () {
   // Create the browser window.
-  mainWindow = new BrowserWindow({width: 800, height: 600})
+  mainWindow = new BrowserWindow({width: 1000, height: 341})
 
   // and load the index.html of the app.
   mainWindow.loadURL(url.format({

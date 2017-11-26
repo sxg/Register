@@ -10,20 +10,20 @@ const spawn = require('child_process').spawn
 
 ipcRenderer.once('temp-path-message', (event, tempPath) => {
     console.log(tempPath)
-    pyRegister = spawn('python3', [path.join(__dirname, 'register.py'), tempPath])
-    pyRegister.stdout.on('data', data => {
-        console.log(`stdout: ${data}`)
-    })
-    pyRegister.stderr.on('data', data => {
-        console.log(`stderr: ${data}`)
-    })
+    // pyRegister = spawn('python3', [path.join(__dirname, 'register.py'), tempPath])
+    // pyRegister.stdout.on('data', data => {
+    //     console.log(`stdout: ${data}`)
+    // })
+    // pyRegister.stderr.on('data', data => {
+    //     console.log(`stderr: ${data}`)
+    // })
 })
 
-const fileManagerBtn = document.getElementById('open-file-manager')
-
-fileManagerBtn.addEventListener('click', function (event) {
-    dialog.showOpenDialog({properties: ['openFile', 'multiSelections']},
+const reconImagesBtn = document.getElementById('button-images-file')
+reconImagesBtn.addEventListener('click', function (event) {
+    dialog.showOpenDialog({properties: ['openFile']},
     function(filePaths) {
-        console.log(filePaths)
+        const reconImagesInput = document.getElementById('input-images-file')
+        reconImagesInput.value = path.basename(filePaths[0])
     })
 })

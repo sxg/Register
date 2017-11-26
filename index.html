@@ -12,36 +12,59 @@
   </head>
   <body>
     <div class="ui container">
-      <div class="ui one column centered padded grid">
-        <div class="column centered row">
-          <h1 class="ui header">Register Images</h1>
+      <div class="ui three column centered aligned padded grid">
+        <div class="centered row">
+          <div class="column">
+            <h2 class="ui header" style="user-select:none;pointer-events:none">Images</h2>
 
-          <div class="ui hidden divider"></div>
+            <h3 class="ui header green" style="user-select:none;pointer-events:none">File</h3>
 
-          <div class="ui action input">
-            <input placeholder="Reconstructed images..." type="text" style="pointer-events:none">
-            <button id="open-file-manager" class="ui button">Browse</button>
+            <div class="ui action input">
+              <input id="input-images-file" placeholder="Reconstructed images..." type="text" style="user-select:none;pointer-events:none">
+              <button id="button-images-file" class="ui button">Browse</button>
+            </div>
+
+            <h3 class="ui header green" style="user-select:none;pointer-events:none">Name</h3>
+
+            <div class="ui input">
+              <input id="input-images-name" placeholder="Name..." type="text">
+            </div>
           </div>
 
-          <div class="ui hidden divider"></div>
+          <div class="column">
+            <h2 class="ui header" style="user-select:none;pointer-events:none">Anchors</h2>
 
-          <div class="ui action input">
-            <input placeholder="Anchor frames..." type="text" style="pointer-events:none">
-            <button class="ui button">Browse</button>
+            <h3 class="ui header green" style="user-select:none;pointer-events:none">File</h3>
+
+            <div class="ui action input">
+              <input id="input-anchors-file" placeholder="Anchor volumes..." type="text" style="user-select:none;pointer-events:none">
+              <button id="button-anchors-file" class="ui button">Browse</button>
+            </div>
+
+            <h3 class="ui header green" style="user-select:none;pointer-events:none">Name</h3>
+
+            <div class="ui input">
+              <input id="input-anchors-name" placeholder="Name..." type="text">
+            </div>
           </div>
 
-          <div class="ui hidden divider"></div>
+          <div class="column">
+            <h2 class="ui header" style="user-select:none;pointer-events:none">Output</h2>
 
-          <div class="ui action input">
-            <input placeholder="Output folder..." type="text" style="pointer-events:none">
-            <button class="ui button">Browse</button>
+            <h3 class="ui header green" style="user-select:none;pointer-events:none">Folder</h3>
+            
+            <div class="ui action input">
+              <input id="input-output-folder" placeholder="Output folder..." type="text" style="user-select:none;pointer-events:none">
+              <button id="button-output-folder" class="ui button">Browse</button>
+            </div>
           </div>
-
-          <div class="ui hidden divider"></div>
-
-          <button class="ui green button">Register Images</button>
 
         </div>
+
+        <div class="centered row">
+          <button class="ui green button">Register Images</button>
+        </div>
+
       </div>
     </div>
 
