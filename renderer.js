@@ -15,18 +15,21 @@ const imageNameInput = document.getElementById('input-image-name')
 const anchorFileInput = document.getElementById('input-anchor-file')
 const anchorNameInput = document.getElementById('input-anchor-name')
 const outputFolderInput = document.getElementById('input-output-folder')
+const broccoliFolderInput = document.getElementById('input-broccoli-folder')
 
 const imageFileLabel = document.getElementById('label-image-file')
 const imageNameLabel = document.getElementById('label-image-name')
 const anchorFileLabel = document.getElementById('label-anchor-file')
 const anchorNameLabel = document.getElementById('label-anchor-name')
 const outputFolderLabel = document.getElementById('label-output-folder')
+const broccoliFolderLabel = document.getElementById('label-broccoli-folder')
 
 const registeringImagesLoader = document.getElementById('loader-registering-images') 
 
 let imagePath
 let anchorPath
 let outputPath
+let broccoliPath
 
 ipcRenderer.once('Message-TempPath', (event, message) => {
     tempPath = message
@@ -66,7 +69,17 @@ outputBtn.addEventListener('click', event => {
         })
 })
 
-//  Register button
+// Browse BROCCOLI path button
+const broccoliBtn = document.getElementById('button-broccoli-folder')
+broccoliBtn.addEventListener('click', event => {
+    dialog.showOpenDialog(remote.getCurrentWindow(), {properties: ['openDirectory']},
+        filePaths => {
+            broccoliFolderInput.value = filePaths[0]
+            broccoliPath = filePaths[0]
+        })
+})
+
+// Register button
 const registerBtn = document.getElementById('button-register')
 registerBtn.addEventListener('click', event => {
     imageFileLabel.style.display = 'none'
@@ -74,6 +87,8 @@ registerBtn.addEventListener('click', event => {
     anchorFileLabel.style.display = 'none'
     anchorNameLabel.style.display = 'none'
     outputFolderLabel.style.display = 'none'
+    broccoliFolderLabel.style.display = 'none'
+    
     imageName = imageNameInput.value
     anchorName = anchorNameInput.value
 
@@ -81,7 +96,7 @@ registerBtn.addEventListener('click', event => {
     registeringImagesLoader.classList.add('active')
 
     pyRegister = execFile(path.join(__dirname, 'dist', 'register', 'register'),
-        [tempPath, imagePath, imageName, anchorPath, anchorName, outputPath], 
+        [tempPath, broccoliPath, imagePath, imageName, anchorPath, anchorName, outputPath], 
             (err, stdout, stderr) => {
                 registeringImagesLoader.classList.remove('active')
                 registeringImagesLoader.classList.add('disabled')
@@ -90,6 +105,9 @@ registerBtn.addEventListener('click', event => {
                     console.log(new Error(stderr))
                     
                     switch (stderr.trim()) {
+                        case 'BROCCOLIPath':
+                            broccoliFolderLabel.style.display = 'inline-block'
+                            break
                         case 'ImagePath':
                             imageFileLabel.style.display = 'inline-block' 
                             break
