@@ -22,6 +22,8 @@ const anchorFileLabel = document.getElementById('label-anchor-file')
 const anchorNameLabel = document.getElementById('label-anchor-name')
 const outputFolderLabel = document.getElementById('label-output-folder')
 
+const registeringImagesLoader = document.getElementById('loader-registering-images') 
+
 let imagePath
 let anchorPath
 let outputPath
@@ -74,11 +76,19 @@ registerBtn.addEventListener('click', event => {
     outputFolderLabel.style.display = 'none'
     imageName = imageNameInput.value
     anchorName = anchorNameInput.value
+
+    registeringImagesLoader.classList.remove('disabled')
+    registeringImagesLoader.classList.add('active')
+
     pyRegister = execFile(path.join(__dirname, 'dist', 'register', 'register'),
         [tempPath, imagePath, imageName, anchorPath, anchorName, outputPath], 
             (err, stdout, stderr) => {
+                registeringImagesLoader.classList.remove('active')
+                registeringImagesLoader.classList.add('disabled')
+
                 if (stderr) {
                     console.log(new Error(stderr))
+                    
                     switch (stderr.trim()) {
                         case 'ImagePath':
                             imageFileLabel.style.display = 'inline-block' 
