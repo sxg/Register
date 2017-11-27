@@ -30,6 +30,7 @@ let imagePath
 let anchorPath
 let outputPath
 let broccoliPath
+let rtvPath
 
 ipcRenderer.once('Message-TempPath', (event, message) => {
     tempPath = message
@@ -76,6 +77,8 @@ broccoliBtn.addEventListener('click', event => {
         filePaths => {
             broccoliFolderInput.value = filePaths[0]
             broccoliPath = filePaths[0]
+            osString = process.platform === 'darwin' ? 'Mac' : 'Linux'
+            rtvPath = path.join(broccoliPath, 'compiled', 'Bash', osString, 'Release', 'RegisterTwoVolumes')
         })
 })
 
@@ -96,7 +99,7 @@ registerBtn.addEventListener('click', event => {
     registeringImagesLoader.classList.add('active')
 
     pyRegister = execFile(path.join(__dirname, 'dist', 'register', 'register'),
-        [tempPath, broccoliPath, imagePath, imageName, anchorPath, anchorName, outputPath], 
+        [tempPath, rtvPath, imagePath, imageName, anchorPath, anchorName, outputPath], 
             (err, stdout, stderr) => {
                 registeringImagesLoader.classList.remove('active')
                 registeringImagesLoader.classList.add('disabled')
