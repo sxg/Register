@@ -8,6 +8,7 @@ const ipcRenderer = require('electron').ipcRenderer
 
 const path = require('path')
 const execFile = require('child_process').execFile
+const settings = require('electron-settings')
 
 let tempPath
 const imageFileInput = document.getElementById('input-image-file')
@@ -34,6 +35,11 @@ let rtvPath
 
 ipcRenderer.once('Message-TempPath', (event, message) => {
     tempPath = message
+})
+
+ipcRenderer.once('Message-BROCCOLIPath', (event, message) => {
+    broccoliPath = message
+    broccoliFolderInput.value = broccoliPath
 })
 
 // Browse images button
@@ -79,6 +85,7 @@ broccoliBtn.addEventListener('click', event => {
             broccoliPath = filePaths[0]
             osString = process.platform === 'darwin' ? 'Mac' : 'Linux'
             rtvPath = path.join(broccoliPath, 'compiled', 'Bash', osString, 'Release', 'RegisterTwoVolumes')
+            settings.set('BROCCOLIPath', broccoliPath)
         })
 })
 

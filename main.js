@@ -4,6 +4,7 @@ const app = electron.app
 // Module to create native browser window.
 const BrowserWindow = electron.BrowserWindow
 
+const settings = require('electron-settings')
 const path = require('path')
 const url = require('url')
 const fs = require('fs')
@@ -12,6 +13,7 @@ const fs = require('fs')
 // be closed automatically when the JavaScript object is garbage collected.
 let mainWindow
 let tempPath
+let broccoliPath
 
 function createWindow () {
   // Create the browser window.
@@ -45,6 +47,10 @@ function createWindow () {
     tempPath = path.join(app.getPath('temp'), 'Register')
     fs.mkdirSync(tempPath)
     mainWindow.webContents.send('Message-TempPath', tempPath)
+    if (settings.has('BROCCOLIPath')) {
+      broccoliPath = settings.get('BROCCOLIPath')
+      mainWindow.webContents.send('Message-BROCCOLIPath', broccoliPath)
+    }
   })
 }
 
