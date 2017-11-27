@@ -22,7 +22,6 @@ let outputPath
 
 ipcRenderer.once('Message-TempPath', (event, message) => {
     tempPath = message
-    console.log(tempPath)
 })
 
 // Browse images button
