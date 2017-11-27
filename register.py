@@ -63,8 +63,7 @@ def main(args):
         reg_img[:, :, :, vol] = nib.load(vol_path).get_data()
 
     # Save the registered data to .mat
-    sio.savemat('/Users/Satyam/Downloads/registeredImages.mat', \
-        {'registeredImages': reg_img})
+    sio.savemat(output_path, {'registeredImages': reg_img})
 
 
 def register_volumes(path, vol, anchor_vol):
