@@ -16,6 +16,12 @@ const anchorFileInput = document.getElementById('input-anchor-file')
 const anchorNameInput = document.getElementById('input-anchor-name')
 const outputFolderInput = document.getElementById('input-output-folder')
 
+const imageFileLabel = document.getElementById('label-image-file')
+const imageNameLabel = document.getElementById('label-image-name')
+const anchorFileLabel = document.getElementById('label-anchor-file')
+const anchorNameLabel = document.getElementById('label-anchor-name')
+const outputFolderLabel = document.getElementById('label-output-folder')
+
 let imagePath
 let anchorPath
 let outputPath
@@ -61,13 +67,38 @@ outputBtn.addEventListener('click', event => {
 //  Register button
 const registerBtn = document.getElementById('button-register')
 registerBtn.addEventListener('click', event => {
+    imageFileLabel.style.display = 'none'
+    imageNameLabel.style.display = 'none'
+    anchorFileLabel.style.display = 'none'
+    anchorNameLabel.style.display = 'none'
+    outputFolderLabel.style.display = 'none'
     imageName = imageNameInput.value
     anchorName = anchorNameInput.value
     pyRegister = execFile(path.join(__dirname, 'dist', 'register', 'register'),
         [tempPath, imagePath, imageName, anchorPath, anchorName, outputPath], 
             (err, stdout, stderr) => {
-                console.log(err)
-                console.log(stdout)
-                console.log(stderr)
+                if (stderr) {
+                    console.log(new Error(stderr))
+                    switch (stderr.trim()) {
+                        case 'ImagePath':
+                            imageFileLabel.style.display = 'inline-block' 
+                            break
+                        case 'ImageName':
+                            imageNameLabel.style.display = 'inline-block'
+                            break
+                        case 'AnchorPath':
+                            anchorFileLabel.style.display = 'inline-block'
+                            break
+                        case 'AnchorName':
+                            anchorNameLabel.style.display = 'inline-block'
+                            break
+                        case 'OutputPath':
+                            outputFolderLabel.style.display = 'inline-block'
+                            break
+                    }
+                }
+                if (stdout) {
+                    console.log(stdout)
+                }
             })
 })
