@@ -40,6 +40,9 @@ ipcRenderer.once('Message-TempPath', (event, message) => {
 ipcRenderer.once('Message-BROCCOLIPath', (event, message) => {
     broccoliPath = message
     broccoliFolderInput.value = broccoliPath
+    osString = process.platform === 'darwin' ? 'Mac' : 'Linux'
+    rtvPath = path.join(broccoliPath, 'compiled', 'Bash', osString, 'Release', 'RegisterTwoVolumes')
+    settings.set('BROCCOLIPath', broccoliPath)
 })
 
 // Browse images button
