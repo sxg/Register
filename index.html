@@ -1,76 +1,100 @@
 <!DOCTYPE html>
 <html>
-  <head>
-    <meta charset="UTF-8">
-    <link rel="stylesheet" type="text/css" href="semantic/dist/semantic.min.css">
-    <script
-      src="https://code.jquery.com/jquery-3.1.1.min.js"
-      integrity="sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8="
-      crossorigin="anonymous"></script>
-    <script src="semantic/dist/semantic.min.js"></script>
-    <title>Register</title>
-  </head>
-  <body>
-    <div class="ui container">
-      <div class="ui three column centered aligned padded grid">
-        <div class="centered row">
-          <div class="column">
-            <h2 class="ui header" style="user-select:none;pointer-events:none">Images</h2>
+    <head>
+        <meta charset="UTF-8">
+        <link rel="stylesheet" type="text/css" href="semantic/dist/semantic.min.css">
+        <script
+            src="https://code.jquery.com/jquery-3.1.1.min.js"
+            integrity="sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8="
+            crossorigin="anonymous"></script>
+        <script src="semantic/dist/semantic.min.js"></script>
+        <title>Register</title>
+    </head>
+    <body>
+        <div class="ui container">
+            <div class="ui three column centered aligned padded grid">
+                <div class="centered row">
 
-            <h3 class="ui header green" style="user-select:none;pointer-events:none">File</h3>
+                    <!-- Images -->
+                    <div class="column">
+                        <h2 class="ui header" style="user-select:none;pointer-events:none">Images</h2>
 
-            <div class="ui action input">
-              <input id="input-image-file" placeholder="Reconstructed images..." type="text" style="user-select:none;pointer-events:none">
-              <button id="button-image-file" class="ui button">Browse</button>
+                        <h3 class="ui header green" style="user-select:none;pointer-events:none">File</h3>
+
+                        <!-- Browse images -->
+                        <div class="ui action input">
+                            <input id="input-image-file" placeholder="Reconstructed images..." type="text" style="user-select:none;pointer-events:none">
+                            <button id="button-image-file" class="ui button">Browse</button>
+                        </div>
+                        <div id="label-image-file" class="ui pointing red basic label" style="display:none">
+                            Need an image dataset!
+                        </div>
+
+                        <h3 class="ui header green" style="user-select:none;pointer-events:none">Name</h3>
+
+                        <!-- Image name -->
+                        <div class="ui input">
+                            <input id="input-image-name" placeholder="Name..." type="text">
+                        </div>
+                        <div id="label-image-name" class="ui pointing red basic label" style="display:none">
+                            Couldn't find images by this name!
+                        </div>
+                    </div>
+
+                    <!-- Anchors -->
+                    <div class="column">
+                        <h2 class="ui header" style="user-select:none;pointer-events:none">Anchors</h2>
+
+                        <h3 class="ui header green" style="user-select:none;pointer-events:none">File</h3>
+
+                        <!-- Browse anchors -->
+                        <div class="ui action input">
+                            <input id="input-anchor-file" placeholder="Anchor volumes..." type="text" style="user-select:none;pointer-events:none">
+                            <button id="button-anchor-file" class="ui button">Browse</button>
+                        </div>
+                        <div id="label-anchor-file" class="ui pointing red basic label" style="display:none">
+                            Need an anchor file!
+                        </div>
+
+                        <h3 class="ui header green" style="user-select:none;pointer-events:none">Name</h3>
+
+                        <!-- Anchors name -->
+                        <div class="ui input">
+                            <input id="input-anchor-name" placeholder="Name..." type="text">
+                        </div>
+                        <div id="label-anchor-name" class="ui pointing red basic label" style="display:none">
+                            Couldn't find anchors by this name!
+                        </div>
+                    </div>
+
+                    <!-- Output -->
+                    <div class="column">
+                        <h2 class="ui header" style="user-select:none;pointer-events:none">Output</h2>
+
+                        <h3 class="ui header green" style="user-select:none;pointer-events:none">Folder</h3>
+                        
+                        <!-- Browse output -->
+                        <div class="ui action input">
+                            <input id="input-output-folder" placeholder="Output folder..." type="text" style="user-select:none;pointer-events:none">
+                            <button id="button-output-folder" class="ui button">Browse</button>
+                        </div>
+                        <div id="label-output-folder" class="ui pointing red basic label" style="display:none">
+                            Need an output folder!
+                        </div>
+                    </div>
+
+                </div>
+
+                <div class="centered row">
+                    <button id="button-register" class="ui green button">Register Images</button>
+                </div>
+
             </div>
-
-            <h3 class="ui header green" style="user-select:none;pointer-events:none">Name</h3>
-
-            <div class="ui input">
-              <input id="input-image-name" placeholder="Name..." type="text">
-            </div>
-          </div>
-
-          <div class="column">
-            <h2 class="ui header" style="user-select:none;pointer-events:none">Anchors</h2>
-
-            <h3 class="ui header green" style="user-select:none;pointer-events:none">File</h3>
-
-            <div class="ui action input">
-              <input id="input-anchor-file" placeholder="Anchor volumes..." type="text" style="user-select:none;pointer-events:none">
-              <button id="button-anchor-file" class="ui button">Browse</button>
-            </div>
-
-            <h3 class="ui header green" style="user-select:none;pointer-events:none">Name</h3>
-
-            <div class="ui input">
-              <input id="input-anchor-name" placeholder="Name..." type="text">
-            </div>
-          </div>
-
-          <div class="column">
-            <h2 class="ui header" style="user-select:none;pointer-events:none">Output</h2>
-
-            <h3 class="ui header green" style="user-select:none;pointer-events:none">Folder</h3>
-            
-            <div class="ui action input">
-              <input id="input-output-folder" placeholder="Output folder..." type="text" style="user-select:none;pointer-events:none">
-              <button id="button-output-folder" class="ui button">Browse</button>
-            </div>
-          </div>
-
         </div>
 
-        <div class="centered row">
-          <button id="button-register" class="ui green button">Register Images</button>
-        </div>
-
-      </div>
-    </div>
-
-    <script>
-      // You can also require other files to run in this process
-      require('./renderer.js')
-    </script>
-  </body>
+        <script>
+            // You can also require other files to run in this process
+            require('./renderer.js')
+        </script>
+    </body>
 </html>
