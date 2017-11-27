@@ -13,7 +13,7 @@
     </head>
     <body style="-webkit-app-region:drag">
         <div class="ui container child">
-            <div class="ui three column padded grid">
+            <div class="ui two column padded grid">
                 <div class="centered row">
 
                     <!-- Images -->
@@ -68,6 +68,12 @@
                         </div>
                     </div>
 
+                </div>
+
+                <div class="ui hidden divider"></div>
+
+                <div class="centered row">
+
                     <!-- Output -->
                     <div class="column">
                         <h2 class="ui header" style="user-select:none;pointer-events:none">Output</h2>
@@ -84,7 +90,25 @@
                         </div>
                     </div>
 
+                    <!-- BROCCOLI -->
+                    <div class="column">
+                        <h2 class="ui header" style="user-select:none;pointer-events:none">BROCCOLI</h2>
+
+                        <h3 class="ui header green" style="user-select:none;pointer-events:none">Folder</h3>
+
+                        <!-- Browse BROCCOLI path -->
+                        <div class="ui fluid action input">
+                            <input id="input-broccoli-folder" placeholder="BROCCOLI path..." type="text" style="user-select:none;pointer-events:none">
+                            <button id="button-broccoli-folder" class="ui button">Browse</button>
+                        </div>
+                        <div id="label-broccoli-folder" class="ui pointing red basic label" style="display:none">
+                            Need BROCCOLI's path!
+                        </div>
+                    </div>
+
                 </div>
+
+                <div class="ui hidden divider"></div>
 
                 <!-- Register button -->
                 <div class="centered row">
