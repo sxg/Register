@@ -54,6 +54,7 @@ def main(args):
     reg_img = load_reg_data(tmp_path, anchor_vol_list, img.shape)
 
     # Save the registered data to .mat
+    output_path = os.path.join(output_path, 'registeredImages.mat')
     sio.savemat(output_path, {'registeredImages': reg_img})
 
 
