@@ -10,14 +10,17 @@ def main(args):
 
     # Variables
     tmp_path = args[1]
-    rtv_path = args[2]
-    img_path = args[3]
-    img_name = args[4]
-    anchor_path = args[5]
-    anchor_name = args[6]
-    output_path = args[7]
+    broccoli_path = args[2]
+    rtv_path = args[3]
+    img_path = args[4]
+    img_name = args[5]
+    anchor_path = args[6]
+    anchor_name = args[7]
+    output_path = args[8]
 
     # Input validation for paths
+    if not os.path.exists(broccoli_path):
+        sys.exit('BROCCOLIPath')
     if not os.path.exists(rtv_path):
         sys.exit('RTVPath')
     if not os.path.exists(tmp_path):
@@ -48,7 +51,7 @@ def main(args):
     mat_to_nii(img, tmp_path)
 
     # Register data
-    register_data(rtv_path, tmp_path, anchor_vol_list, n_vols)
+    register_data(broccoli_path, rtv_path, tmp_path, anchor_vol_list, n_vols)
 
     # Load the registered data
     reg_img = load_reg_data(tmp_path, anchor_vol_list, img.shape)
@@ -66,8 +69,9 @@ def register_volumes(rtv_path, path, vol, anchor_vol):
     os.system('%s %s %s -iterationslinear 0 -platform 0 -device 2' \
         % (rtv_path, vol_path, anchor_vol_path))
 
-def register_data(rtv_path, tmp_path, anchor_vol_list, n_vols):
+def register_data(broccoli_path, rtv_path, tmp_path, anchor_vol_list, n_vols):
     """Registers a dataset using BROCCOLI."""
+    os.environ['BROCCOLI_DIR'] = broccoli_path + '/'
     last_unreg_vol = 0
     for anchor_vol in anchor_vol_list:
         for vol in range(last_unreg_vol, anchor_vol):

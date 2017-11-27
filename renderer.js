@@ -109,7 +109,7 @@ registerBtn.addEventListener('click', event => {
     registeringImagesLoader.classList.add('active')
 
     pyRegister = execFile(path.join(__dirname, 'dist', 'register', 'register'),
-        [tempPath, rtvPath, imagePath, imageName, anchorPath, anchorName, outputPath], 
+        [tempPath, broccoliPath, rtvPath, imagePath, imageName, anchorPath, anchorName, outputPath], 
             (err, stdout, stderr) => {
                 registeringImagesLoader.classList.remove('active')
                 registeringImagesLoader.classList.add('disabled')
@@ -118,6 +118,7 @@ registerBtn.addEventListener('click', event => {
                     console.log(new Error(stderr))
                     
                     switch (stderr.trim()) {
+                        case 'RTVPath':
                         case 'BROCCOLIPath':
                             broccoliFolderLabel.style.display = 'inline-block'
                             break
