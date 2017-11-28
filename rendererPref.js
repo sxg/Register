@@ -68,7 +68,7 @@ saveButton.addEventListener('click', event => {
     }
 })
 
-// Helpers
+//// Helpers
 const hideErrors = function() {
     labels.forEach(label => {
         label.style.display = 'none'
