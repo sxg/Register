@@ -1,13 +1,13 @@
+// Electron dependencies
 const electron = require('electron')
-// Module to control application life.
-const app = electron.app
-// Module to create native browser window.
-const BrowserWindow = electron.BrowserWindow
+const {app, BrowserWindow, Menu} = electron
 
+// Node dependencies
 const settings = require('electron-settings')
 const path = require('path')
 const url = require('url')
 const fs = require('fs')
+const menuTemplate = require('./mainMenu')
 
 // Keep a global reference of the window object, if you don't, the window will
 // be closed automatically when the JavaScript object is garbage collected.
@@ -26,8 +26,7 @@ function createWindow () {
     slashes: true
   }))
 
-  // Open the DevTools.
-  // mainWindow.webContents.openDevTools()
+  Menu.setApplicationMenu(Menu.buildFromTemplate(menuTemplate))
 
   // Emitted when the window is closed.
   mainWindow.on('closed', function () {
@@ -35,14 +34,15 @@ function createWindow () {
       filePath = path.join(tempPath, file)
       fs.unlinkSync(filePath)
     })
+    fs.rmdirSync(tempPath)
 
     // Dereference the window object, usually you would store windows
     // in an array if your app supports multi windows, this is the time
     // when you should delete the corresponding element.
-   fs.rmdirSync(tempPath)
     mainWindow = null
   })
 
+  // Send the template and BROCCOLI paths to the renderer
   mainWindow.webContents.on('did-finish-load', () => {
     tempPath = path.join(app.getPath('temp'), 'Register')
     fs.mkdirSync(tempPath)
