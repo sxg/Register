@@ -3,3 +3,8 @@
     top: 50%;
     transform: translateY(-50%);
 }
+
+.unselectable {
+    user-select: none;
+    pointer-events: none;
+}

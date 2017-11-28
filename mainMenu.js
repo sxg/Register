@@ -24,7 +24,7 @@ module.exports = [
                 // Create the preferences window
                 prefWindow = new BrowserWindow({width: 500, height: 500, titleBarStyle: 'hiddenInset'})
                 prefWindow.loadURL(url.format({
-                    pathname: path.join(__dirname, 'index.html'),
+                    pathname: path.join(__dirname, 'pref.html'),
                     protocol: 'file:',
                     slashes: true
                 }))

@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <link rel="stylesheet" type="text/css" href="semantic/dist/semantic.min.css">
+        <link rel="stylesheet" type="text/css" href="custom.css">
+        <script
+            src="https://code.jquery.com/jquery-3.1.1.min.js"
+            integrity="sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8="
+            crossorigin="anonymous"></script>
+        <script src="semantic/dist/semantic.min.js"></script>
+        <title>Register</title>
+    </head>
+    <body style="-webkit-app-region:drag">
+        <div class="ui container child">
+            <div class="ui one column padded grid">
+                <div class="centered row">
+                    
+                    <!-- BROCCOLI -->
+                    <div class="column">
+                        <h3 class="ui header unselectable">BROCCOLI Path</h3>
+
+                        <!-- Browse BROCCOLI path -->
+                        <div class="ui fluid action input">
+                            <input id="input-broccoli-folder" class="unselectable" placeholder="BROCCOLI path..." type="text">
+                            <button id="button-broccoli-folder" class="ui button">Browse</button>
+                        </div>
+                        <div id="label-broccoli-folder" class="ui pointing red basic label" style="display:none">
+                            Need BROCCOLI's path!
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+
+        <script>
+        // You can also require other files to run in this process
+            require('./rendererPref.js')
+        </script>
+    </body>
+</html>
