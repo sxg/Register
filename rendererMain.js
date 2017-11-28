@@ -1,15 +1,15 @@
-// This file is required by the index.html file and will
-// be executed in the renderer process for that window.
-
+// Electron dependencies
 const dialog = require('electron').remote.dialog
 const remote = require('electron').remote
 const ipcRenderer = require('electron').ipcRenderer
 
+// Node dependencies
 const path = require('path')
 const execFile = require('child_process').execFile
 const settings = require('electron-settings')
 
-let tempPath
+//// View
+// Inputs
 const imageFileInput = document.getElementById('input-image-file')
 const imageNameInput = document.getElementById('input-image-name')
 const anchorFileInput = document.getElementById('input-anchor-file')
@@ -17,6 +17,7 @@ const anchorNameInput = document.getElementById('input-anchor-name')
 const outputFolderInput = document.getElementById('input-output-folder')
 const broccoliFolderInput = document.getElementById('input-broccoli-folder')
 
+// Labels
 const imageFileLabel = document.getElementById('label-image-file')
 const imageNameLabel = document.getElementById('label-image-name')
 const anchorFileLabel = document.getElementById('label-anchor-file')
@@ -24,29 +25,32 @@ const anchorNameLabel = document.getElementById('label-anchor-name')
 const outputFolderLabel = document.getElementById('label-output-folder')
 const broccoliFolderLabel = document.getElementById('label-broccoli-folder')
 
+// Buttons
+const imageButton = document.getElementById('button-image-file')
+const anchorButton = document.getElementById('button-anchor-file')
+const outputButton = document.getElementById('button-output-folder')
+const registerButton = document.getElementById('button-register')
+
+// Loaders
 const registeringImagesLoader = document.getElementById('loader-registering-images') 
 
+//// Model
+let tempPath
 let imagePath
 let anchorPath
 let outputPath
 let broccoliPath
 let rtvPath
+let platform
+let device
 
 ipcRenderer.once('Message-TempPath', (event, message) => {
     tempPath = message
 })
 
-ipcRenderer.once('Message-BROCCOLIPath', (event, message) => {
-    broccoliPath = message
-    broccoliFolderInput.value = broccoliPath
-    osString = process.platform === 'darwin' ? 'Mac' : 'Linux'
-    rtvPath = path.join(broccoliPath, 'compiled', 'Bash', osString, 'Release', 'RegisterTwoVolumes')
-    settings.set('BROCCOLIPath', broccoliPath)
-})
-
+//// UI actions
 // Browse images button
-const imageBtn = document.getElementById('button-image-file')
-imageBtn.addEventListener('click', event => {
+imageButton.addEventListener('click', event => {
     dialog.showOpenDialog(remote.getCurrentWindow(), {
         filters: [{name: 'Image Dataset', extensions: ['mat', 'h5']}],
         properties: ['openFile']
@@ -57,8 +61,7 @@ imageBtn.addEventListener('click', event => {
 })
 
 // Browse anchors button
-const anchorBtn = document.getElementById('button-anchor-file')
-anchorBtn.addEventListener('click', event => {
+anchorButton.addEventListener('click', event => {
     dialog.showOpenDialog(remote.getCurrentWindow(), {
         filters: [{name: 'Image Dataset', extensions: ['mat', 'h5']}],
         properties: ['openFile']
@@ -69,8 +72,7 @@ anchorBtn.addEventListener('click', event => {
 })
 
 // Browse output folder button
-const outputBtn = document.getElementById('button-output-folder')
-outputBtn.addEventListener('click', event => {
+outputButton.addEventListener('click', event => {
     dialog.showOpenDialog(remote.getCurrentWindow(), {properties: ['openDirectory']}, 
         filePaths => {
             outputFolderInput.value = path.basename(filePaths[0])
@@ -78,22 +80,8 @@ outputBtn.addEventListener('click', event => {
         })
 })
 
-// Browse BROCCOLI path button
-const broccoliBtn = document.getElementById('button-broccoli-folder')
-broccoliBtn.addEventListener('click', event => {
-    dialog.showOpenDialog(remote.getCurrentWindow(), {properties: ['openDirectory']},
-        filePaths => {
-            broccoliFolderInput.value = filePaths[0]
-            broccoliPath = filePaths[0]
-            osString = process.platform === 'darwin' ? 'Mac' : 'Linux'
-            rtvPath = path.join(broccoliPath, 'compiled', 'Bash', osString, 'Release', 'RegisterTwoVolumes')
-            settings.set('BROCCOLIPath', broccoliPath)
-        })
-})
-
 // Register button
-const registerBtn = document.getElementById('button-register')
-registerBtn.addEventListener('click', event => {
+registerButton.addEventListener('click', event => {
     imageFileLabel.style.display = 'none'
     imageNameLabel.style.display = 'none'
     anchorFileLabel.style.display = 'none'
