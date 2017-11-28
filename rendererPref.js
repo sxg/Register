@@ -4,7 +4,7 @@ const {dialog} = remote
 const settings = require('electron-settings')
 const path = require('path')
 
-//// UI components
+//// View
 // Window
 const window = remote.getCurrentWindow()
 
