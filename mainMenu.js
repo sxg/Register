@@ -22,7 +22,7 @@ module.exports = [
                 console.log('Clicked preferences!')
 
                 // Create the preferences window
-                prefWindow = new BrowserWindow({width: 322, height: 425, titleBarStyle: 'hiddenInset'})
+                prefWindow = new BrowserWindow({width: 350, height: 425, titleBarStyle: 'hiddenInset'})
                 prefWindow.loadURL(url.format({
                     pathname: path.join(__dirname, 'pref.html'),
                     protocol: 'file:',
