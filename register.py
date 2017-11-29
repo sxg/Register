@@ -12,11 +12,13 @@ def main(args):
     tmp_path = args[1]
     broccoli_path = args[2]
     rtv_path = args[3]
-    img_path = args[4]
-    img_name = args[5]
-    anchor_path = args[6]
-    anchor_name = args[7]
-    output_path = args[8]
+    platform = args[4]
+    device = args[5]
+    img_path = args[6]
+    img_name = args[7]
+    anchor_path = args[8]
+    anchor_name = args[9]
+    output_path = args[10]
 
     # Input validation for paths
     if not os.path.exists(broccoli_path):
@@ -51,7 +53,7 @@ def main(args):
     mat_to_nii(img, tmp_path)
 
     # Register data
-    register_data(broccoli_path, rtv_path, tmp_path, anchor_vol_list, n_vols)
+    register_data(broccoli_path, rtv_path, platform, device, tmp_path, anchor_vol_list, n_vols)
 
     # Load the registered data
     reg_img = load_reg_data(tmp_path, anchor_vol_list, img.shape)
@@ -61,27 +63,27 @@ def main(args):
     sio.savemat(output_path, {'registeredImages': reg_img})
 
 
-def register_volumes(rtv_path, path, vol, anchor_vol):
+def register_volumes(rtv_path, platform, device, path, vol, anchor_vol):
     """Registers two volumes using BROCCOLI."""
     vol_path = os.path.join(path, '%d.nii' % (vol + 1))
     anchor_vol_path = os.path.join(path, '%d.nii' % (anchor_vol + 1))
     print('Registering %s to %s (anchor)' % (vol_path, anchor_vol_path))
-    os.system('%s %s %s -iterationslinear 0 -platform 0 -device 2' \
-        % (rtv_path, vol_path, anchor_vol_path))
+    os.system('%s %s %s -iterationslinear 0 -platform %s -device %s' \
+        % (rtv_path, vol_path, anchor_vol_path, platform, device))
 
-def register_data(broccoli_path, rtv_path, tmp_path, anchor_vol_list, n_vols):
+def register_data(broccoli_path, rtv_path, platform, device, tmp_path, anchor_vol_list, n_vols):
     """Registers a dataset using BROCCOLI."""
     os.environ['BROCCOLI_DIR'] = broccoli_path + '/'
     last_unreg_vol = 0
     for anchor_vol in anchor_vol_list:
         for vol in range(last_unreg_vol, anchor_vol):
-            register_volumes(rtv_path, tmp_path, vol, anchor_vol)
+            register_volumes(rtv_path, platform, device, tmp_path, vol, anchor_vol)
         last_unreg_vol = anchor_vol + 1
 
         # Handle edge case where final volumes are registered to the last anchor
         if anchor_vol == anchor_vol_list[-1] and anchor_vol != (n_vols - 1):
             for vol in range(last_unreg_vol, n_vols):
-                register_volumes(rtv_path, tmp_path, vol, anchor_vol)
+                register_volumes(rtv_path, platform, device, tmp_path, vol, anchor_vol)
 
 def load_reg_data(path, anchor_vol_list, shape):
     """Loads registered data from the given path."""

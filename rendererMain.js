@@ -109,7 +109,7 @@ registerButton.addEventListener('click', event => {
     const err = loadPreferences()
     if (!err) {
         pyRegister = execFile(path.join(__dirname, 'dist', 'register', 'register'),
-            [tempPath, broccoliPath, rtvPath, imagePath, imageName, anchorPath, anchorName, outputPath], 
+            [tempPath, broccoliPath, rtvPath, platform, device, imagePath, imageName, anchorPath, anchorName, outputPath], 
                 (err, stdout, stderr) => {
                     stopLoader()
 
@@ -117,8 +117,6 @@ registerButton.addEventListener('click', event => {
                         console.log(new Error(stderr))
                         
                         switch (stderr.trim()) {
-                            case 'OpenCLPlatform':
-                            case 'OpenCLDevice':
                             case 'RTVPath':
                             case 'BROCCOLIPath':
                                 showErrorMessage('Update settings!')
