@@ -13,11 +13,11 @@ const broccoliPathInput = document.getElementById('input-broccoli-path')
 const platformInput = document.getElementById('input-platform')
 const deviceInput = document.getElementById('input-device')
 
-// Labels
-const broccoliPathLabel = document.getElementById('label-broccoli-path')
-const platformLabel = document.getElementById('label-platform')
-const deviceLabel = document.getElementById('label-device')
-const labels = [broccoliPathLabel, platformLabel, deviceLabel]
+// Input containers
+const broccoliPathInputContainer = document.getElementById('input-broccoli-path-container')
+const platformInputContainer = document.getElementById('input-platform-container')
+const deviceInputContainer = document.getElementById('input-device-container')
+const inputContainers = [broccoliPathInputContainer, platformInputContainer, deviceInputContainer]
 
 // Buttons
 const broccoliPathButton = document.getElementById('button-broccoli-path')
@@ -48,7 +48,7 @@ broccoliPathButton.addEventListener('click', event => {
                 settings.set('BROCCOLIPath', broccoliPath)
                 settings.set('RTVPath', rtvPath)
             } else {
-                showError(broccoliPathLabel)
+                showError(broccoliPathInputContainer)
             }
         })
     }
@@ -58,9 +58,9 @@ broccoliPathButton.addEventListener('click', event => {
 saveButton.addEventListener('click', event => {
     hideErrors()
     if (!platformInput.value) {
-        showError(platformLabel)
+        showError(platformInputContainer)
     } else if (!deviceInput.value) {
-        showError(deviceLabel)
+        showError(deviceInputContainer)
     } else {
         settings.set('OpenCLPlatform', parseInt(platformInput.value))
         settings.set('OpenCLDevice', parseInt(deviceInput.value))
@@ -70,13 +70,13 @@ saveButton.addEventListener('click', event => {
 
 //// Helpers
 const hideErrors = function() {
-    labels.forEach(label => {
-        label.style.display = 'none'
+    inputContainers.forEach(inputContainer => {
+        inputContainer.classList.remove('error')
     })
 }
 
-const showError = function(label) {
-    label.style.display = 'inline-block'
+const showError = function(inputContainer) {
+    inputContainer.classList.add('error')
 }
 
 const loadPreferences = function() {
