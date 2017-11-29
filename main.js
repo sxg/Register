@@ -17,7 +17,7 @@ let broccoliPath
 
 function createWindow () {
   // Create the browser window.
-  mainWindow = new BrowserWindow({width: 1000, height: 375, titleBarStyle: 'hiddenInset'})
+  mainWindow = new BrowserWindow({width: 1000, height: 375, resizable: false})
 
   // and load the index.html of the app.
   mainWindow.loadURL(url.format({
