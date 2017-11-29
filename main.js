@@ -50,6 +50,8 @@ function createWindow () {
     if (settings.has('BROCCOLIPath')) {
       broccoliPath = settings.get('BROCCOLIPath')
       mainWindow.webContents.send('Message-BROCCOLIPath', broccoliPath)
+    if (!fs.existsSync(tempPath)) {
+      fs.mkdirSync(tempPath)
     }
   })
 }
