@@ -19,8 +19,6 @@ module.exports = [
             label: 'Preferences...',
             accelerator: 'CmdOrCtrl+,',
             click: function(menuItem, browserWindow, event) {
-                console.log('Clicked preferences!')
-
                 // Create the preferences window
                 prefWindow = new BrowserWindow({width: 350, height: 425, titleBarStyle: 'hiddenInset'})
                 prefWindow.loadURL(url.format({
