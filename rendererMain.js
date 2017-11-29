@@ -18,12 +18,12 @@ const anchorFileInput = document.getElementById('input-anchor-file')
 const anchorNameInput = document.getElementById('input-anchor-name')
 const outputFolderInput = document.getElementById('input-output-folder')
 
-// Labels
-const imageFileLabel = document.getElementById('label-image-file')
-const imageNameLabel = document.getElementById('label-image-name')
-const anchorFileLabel = document.getElementById('label-anchor-file')
-const anchorNameLabel = document.getElementById('label-anchor-name')
-const outputFolderLabel = document.getElementById('label-output-folder')
+// Input containers
+const imageFileInputContainer = document.getElementById('input-image-file-container')
+const imageNameInputContainer = document.getElementById('input-image-name-container')
+const anchorFileInputContainer = document.getElementById('input-anchor-file-container')
+const anchorNameInputContainer = document.getElementById('input-anchor-name-container')
+const outputFolderInputContainer = document.getElementById('input-output-folder-container')
 
 // Messages
 const errorMessage = document.getElementById('message-error')
@@ -122,19 +122,19 @@ registerButton.addEventListener('click', event => {
                                 showErrorMessage('Update settings!')
                                 break
                             case 'ImagePath':
-                                showErrorLabel(imageFileLabel)
+                                showErrorInputContainer(imageFileInputContainer)
                                 break
                             case 'ImageName':
-                                showErrorLabel(imageNameLabel)
+                                showErrorInputContainer(imageNameInputContainer)
                                 break
                             case 'AnchorPath':
-                                showErrorLabel(anchorFileLabel)
+                                showErrorInputContainer(anchorFileInputContainer)
                                 break
                             case 'AnchorName':
-                                showErrorLabel(anchorNameLabel)
+                                showErrorInputContainer(anchorNameInputContainer)
                                 break
                             case 'OutputPath':
-                                showErrorLabel(outputFolderLabel)
+                                showErrorInputContainer(outputFolderInputContainer)
                                 break
                         }
                     }
@@ -174,11 +174,11 @@ const loadPreferences = function() {
 }
 
 const hideErrors = function() {
-    imageFileLabel.style.display = 'none'
-    imageNameLabel.style.display = 'none'
-    anchorFileLabel.style.display = 'none'
-    anchorNameLabel.style.display = 'none'
-    outputFolderLabel.style.display = 'none'
+    imageFileInputContainer.classList.remove('error')
+    imageNameInputContainer.classList.remove('error')
+    anchorFileInputContainer.classList.remove('error')
+    anchorNameInputContainer.classList.remove('error')
+    outputFolderInputContainer.classList.remove('error')
     headerErrorMessage.innerHTML = ''
     errorMessage.style.display = 'none'
     const size = window.getSize()
@@ -192,8 +192,8 @@ const showErrorMessage = function(message) {
     window.setSize(size[0], Math.max(size[1], 475), true) 
 }
 
-const showErrorLabel = function(label) {
-    label.style.display = 'inline-block'
+const showErrorInputContainer = function(inputContainer) {
+    inputContainer.classList.add('error')
 }
 
 const startLoader = function() {
