@@ -3,7 +3,6 @@ const electron = require('electron')
 const {app, BrowserWindow, Menu} = electron
 
 // Node dependencies
-const settings = require('electron-settings')
 const path = require('path')
 const url = require('url')
 const fs = require('fs')
@@ -45,14 +44,10 @@ function createWindow () {
   // Send the template and BROCCOLI paths to the renderer
   mainWindow.webContents.on('did-finish-load', () => {
     tempPath = path.join(app.getPath('temp'), 'Register')
-    fs.mkdirSync(tempPath)
-    mainWindow.webContents.send('Message-TempPath', tempPath)
-    if (settings.has('BROCCOLIPath')) {
-      broccoliPath = settings.get('BROCCOLIPath')
-      mainWindow.webContents.send('Message-BROCCOLIPath', broccoliPath)
     if (!fs.existsSync(tempPath)) {
       fs.mkdirSync(tempPath)
     }
+    mainWindow.webContents.send('Message-TempPath', tempPath)
   })
 }
 
