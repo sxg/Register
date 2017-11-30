@@ -60,7 +60,7 @@ imageButton.addEventListener('click', event => {
             imageFileInput.value = path.basename(filePaths[0])
             imagePath = filePaths[0]
         } else {
-            showErrorLabel(imageFileLabel)
+            showErrorInputContainer(imageFileInputContainer)
         }
     })
 })
@@ -79,7 +79,7 @@ anchorButton.addEventListener('click', event => {
             anchorFileInput.value = path.basename(filePaths[0])
             anchorPath = filePaths[0]
         } else {
-            showErrorLabel(anchorFileLabel)
+            showErrorInputContainer(anchorFileInputContainer)
         }
     })
 })
@@ -96,7 +96,7 @@ outputButton.addEventListener('click', event => {
                 outputFolderInput.value = path.basename(filePaths[0])
                 outputPath = filePaths[0]
             } else {
-                showErrorLabel(outputFolderLabel)
+                showErrorInputContainer(outputFolderInputContainer)
             }
         })
 })
