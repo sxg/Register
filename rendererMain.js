@@ -165,7 +165,7 @@ const loadPreferences = function() {
     }
     if (settings.has('OpenCLPath')) {
         openclPath = settings.get('OpenCLPath')
-    } else if (platform.process == 'linux') {
+    } else if (process.platform == 'linux') {
         return 'Set the OpenCL Path in settings!'
     }
     if (settings.has('OpenCLPlatform')) {
