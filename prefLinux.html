@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <link rel="stylesheet" type="text/css" href="semantic/dist/semantic.min.css">
+        <link rel="stylesheet" type="text/css" href="custom.css">
+        <script
+            src="https://code.jquery.com/jquery-3.1.1.min.js"
+            integrity="sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8="
+            crossorigin="anonymous"></script>
+        <script src="semantic/dist/semantic.min.js"></script>
+        <title>Register</title>
+    </head>
+    <body style="-webkit-app-region:drag">
+        <div class="ui container child">
+            <div class="ui one column padded grid">
+                <div class="centered row">
+                    
+                    <div class="column">
+
+                        <!-- Browse BROCCOLI path -->
+                        <h3 class="ui header unselectable">BROCCOLI Path</h3>
+
+                        <div id="input-broccoli-path-container" class="ui fluid action input">
+                            <input id="input-broccoli-path" placeholder="BROCCOLI path..." type="text" readonly>
+                            <button id="button-broccoli-path" class="ui button">Browse</button>
+                        </div>
+
+                        <!-- Browse OpenCL path -->
+                        <h3 class="ui header unselectable">OpenCL Path</h3>
+
+                        <div id="input-opencl-path-container" class="ui fluid action hidden input">
+                            <input id="input-opencl-path" placeholder="OpenCL path..." type="text" readonly>
+                            <button id="button-opencl-path" class="ui button">Browse</button>
+                        </div>
+
+                        <!-- OpenCL Platform -->
+                        <h3 class="ui header unselectable">OpenCL Platform</h3>
+
+                        <div id="input-platform-container" class="ui input">
+                            <input id="input-platform" value="0" type="number">
+                        </div>
+
+                        <!-- OpenCL Device -->
+                        <h3 class="ui header unselectable">OpenCL Device</h3>
+
+                        <div id="input-device-container" class="ui input">
+                            <input id="input-device" value="0" type="number">
+                        </div>
+
+                    </div>
+
+                </div>
+
+                <!-- Save button -->
+                <div class="centered row">
+                    <button id="button-save" class="ui green button">Save</button>
+                </div>
+
+            </div>
+        </div>
+
+        <script>
+        // You can also require other files to run in this process
+            require('./rendererPref.js')
+        </script>
+    </body>
+</html>
