@@ -10,21 +10,25 @@ const window = remote.getCurrentWindow()
 
 // Inputs
 const broccoliPathInput = document.getElementById('input-broccoli-path')
+const openclPathInput = document.getElementById('input-opencl-path')
 const platformInput = document.getElementById('input-platform')
 const deviceInput = document.getElementById('input-device')
 
 // Input containers
 const broccoliPathInputContainer = document.getElementById('input-broccoli-path-container')
+const openclPathInputContainer = document.getElementById('input-opencl-path-container')
 const platformInputContainer = document.getElementById('input-platform-container')
 const deviceInputContainer = document.getElementById('input-device-container')
-const inputContainers = [broccoliPathInputContainer, platformInputContainer, deviceInputContainer]
+const inputContainers = [broccoliPathInputContainer, openclPathInputContainer, platformInputContainer, deviceInputContainer]
 
 // Buttons
 const broccoliPathButton = document.getElementById('button-broccoli-path')
+const openclPathButton = document.getElementById('button-opencl-path')
 const saveButton = document.getElementById('button-save')
 
 //// Model
 let broccoliPath
+let openclPath
 let rtvPath
 let platform
 let device
@@ -49,6 +53,22 @@ broccoliPathButton.addEventListener('click', event => {
                 settings.set('RTVPath', rtvPath)
             } else {
                 showError(broccoliPathInputContainer)
+            }
+        })
+    }
+)
+
+// Browse OpenCL path
+openclPathButton.addEventListener('click', event => {
+    dialog.showOpenDialog(window, {properties: ['openDirectory']},
+        filePaths => {
+            if (filePaths && filePaths[0]) {
+                hideErrors()
+                openclPath = filePaths[0]
+                openclPathInput.value = openclPath
+                settings.set('OpenCLPath', openclPath)
+            } else {
+                showError(openclPathInputContainer)
             }
         })
     }
@@ -82,11 +102,15 @@ const showError = function(inputContainer) {
 const loadPreferences = function() {
     broccoliPath = settings.get('BROCCOLIPath')
     rtvPath = settings.get('RTVPath')
+    openclPath = settings.get('OpenCLPath')
     platform = settings.get('OpenCLPlatform')
     device = settings.get('OpenCLDevice')
 
     if (broccoliPath) {
         broccoliPathInput.value = broccoliPath
+    }
+    if (openclPath) {
+        openclPathInput.value = openclPath
     }
     if (platform) {
         platformInput.value = platform.toString()
