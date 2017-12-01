@@ -44,6 +44,7 @@ let imagePath, imageName
 let anchorPath, anchorName
 let outputPath
 let broccoliPath, rtvPath, platform, device
+let openclPath
 
 ipcRenderer.once('Message-TempPath', (event, message) => {
     tempPath = message
@@ -109,7 +110,7 @@ registerButton.addEventListener('click', event => {
     const err = loadPreferences()
     if (!err) {
         pyRegister = execFile(path.join(__dirname, 'dist', 'register', 'register'),
-            [tempPath, broccoliPath, rtvPath, platform, device, imagePath, imageName, anchorPath, anchorName, outputPath], 
+            [tempPath, broccoliPath, rtvPath, platform, device, imagePath, imageName, anchorPath, anchorName, outputPath, openclPath], 
                 (err, stdout, stderr) => {
                     stopLoader()
 
@@ -119,6 +120,7 @@ registerButton.addEventListener('click', event => {
                         switch (stderr.trim()) {
                             case 'RTVPath':
                             case 'BROCCOLIPath':
+                            case 'OpenCLPath':
                                 showErrorMessage('Update settings!')
                                 break
                             case 'ImagePath':
@@ -160,6 +162,11 @@ const loadPreferences = function() {
         rtvPath = settings.get('RTVPath')
     } else {
         return 'Set the BROCCOLI path in settings!'
+    }
+    if (settings.has('OpenCLPath')) {
+        openclPath = settings.get('OpenCLPath')
+    } else if (platform.process == 'linux') {
+        return 'Set the OpenCL Path in settings!'
     }
     if (settings.has('OpenCLPlatform')) {
         platform = settings.get('OpenCLPlatform')
