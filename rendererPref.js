@@ -19,7 +19,10 @@ const broccoliPathInputContainer = document.getElementById('input-broccoli-path-
 const openclPathInputContainer = document.getElementById('input-opencl-path-container')
 const platformInputContainer = document.getElementById('input-platform-container')
 const deviceInputContainer = document.getElementById('input-device-container')
-const inputContainers = [broccoliPathInputContainer, openclPathInputContainer, platformInputContainer, deviceInputContainer]
+const inputContainers = [broccoliPathInputContainer, platformInputContainer, deviceInputContainer]
+if (openclPathInputContainer) {
+    inputContainers.shift(openclPathInputContainer)
+}
 
 // Buttons
 const broccoliPathButton = document.getElementById('button-broccoli-path')
@@ -59,20 +62,22 @@ broccoliPathButton.addEventListener('click', event => {
 )
 
 // Browse OpenCL path
-openclPathButton.addEventListener('click', event => {
-    dialog.showOpenDialog(window, {properties: ['openDirectory']},
-        filePaths => {
-            if (filePaths && filePaths[0]) {
-                hideErrors()
-                openclPath = filePaths[0]
-                openclPathInput.value = openclPath
-                settings.set('OpenCLPath', openclPath)
-            } else {
-                showError(openclPathInputContainer)
-            }
-        })
-    }
-)
+if (openclPathButton) {
+    openclPathButton.addEventListener('click', event => {
+        dialog.showOpenDialog(window, {properties: ['openDirectory']},
+            filePaths => {
+                if (filePaths && filePaths[0]) {
+                    hideErrors()
+                    openclPath = filePaths[0]
+                    openclPathInput.value = openclPath
+                    settings.set('OpenCLPath', openclPath)
+                } else {
+                    showError(openclPathInputContainer)
+                }
+            })
+        }
+    )
+}
 
 // Save settings
 saveButton.addEventListener('click', event => {
@@ -109,7 +114,7 @@ const loadPreferences = function() {
     if (broccoliPath) {
         broccoliPathInput.value = broccoliPath
     }
-    if (openclPath) {
+    if (openclPath && openclPathInput) {
         openclPathInput.value = openclPath
     }
     if (platform) {
