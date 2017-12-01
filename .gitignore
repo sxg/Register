@@ -2,7 +2,6 @@ node_modules
 /__pycache__
 /build
 /dist
-/register.spec
 
 Register-darwin-x64/
 
