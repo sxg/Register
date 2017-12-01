@@ -45,7 +45,8 @@ def main(args):
         sys.exit('AnchorName')
 
     # Load the datasets
-    img = img_data[img_name] * 1e7
+    img = img_data[img_name]
+    img = img / img.flatten().max()
     n_vols = img.shape[3]
     anchor_vol_list = np.squeeze(anchor_data[anchor_name])
 
