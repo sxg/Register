@@ -21,6 +21,8 @@ def main(args):
     output_path = args[10]
     if sys.platform == 'linux':
         opencl_path = args[11]
+    else:
+        opencl_path = '/'
 
     # Input validation for paths
     if not os.path.exists(broccoli_path):
