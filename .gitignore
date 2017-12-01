@@ -3,6 +3,8 @@ node_modules
 /build
 /dist
 
+register.spec
+
 Register-darwin-x64/
 
 Register-linux-x64/
