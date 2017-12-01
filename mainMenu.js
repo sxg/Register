@@ -23,8 +23,8 @@ module.exports = [
             click: function(menuItem, browserWindow, event) {
                     if (!prefWindow) {
                         // Create the preferences window
-                        htmlFile = process.platform === 'darwin' ? 'prefLinux.html' : 'pref.html'
-                        height = process.platform === 'darwin' ? 511 : 425
+                        htmlFile = process.platform === 'linux' ? 'prefLinux.html' : 'pref.html'
+                        height = process.platform === 'linux' ? 511 : 425
                         prefWindow = new BrowserWindow({width: 350, height: height, titleBarStyle: 'hiddenInset', resizable: false})
                         prefWindow.loadURL(url.format({
                             pathname: path.join(__dirname, htmlFile),
