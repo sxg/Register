@@ -19,12 +19,16 @@ def main(args):
     anchor_path = args[8]
     anchor_name = args[9]
     output_path = args[10]
+    if sys.platform == 'linux':
+        opencl_path = args[11]
 
     # Input validation for paths
     if not os.path.exists(broccoli_path):
         sys.exit('BROCCOLIPath')
     if not os.path.exists(rtv_path):
         sys.exit('RTVPath')
+    if not os.path.exists(opencl_path):
+        sys.exit('OpenCLPath')
     if not os.path.exists(tmp_path):
         sys.exit('TempPath')
     if not os.path.exists(img_path):
@@ -54,7 +58,7 @@ def main(args):
     mat_to_nii(img, tmp_path)
 
     # Register data
-    register_data(broccoli_path, rtv_path, platform, device, tmp_path, anchor_vol_list, n_vols)
+    register_data(broccoli_path, rtv_path, opencl_path, platform, device, tmp_path, anchor_vol_list, n_vols)
 
     # Load the registered data
     reg_img = load_reg_data(tmp_path, anchor_vol_list, img.shape)
@@ -72,9 +76,11 @@ def register_volumes(rtv_path, platform, device, path, vol, anchor_vol):
     os.system('%s %s %s -iterationslinear 0 -platform %s -device %s' \
         % (rtv_path, vol_path, anchor_vol_path, platform, device))
 
-def register_data(broccoli_path, rtv_path, platform, device, tmp_path, anchor_vol_list, n_vols):
+def register_data(broccoli_path, rtv_path, opencl_path, platform, device, tmp_path, anchor_vol_list, n_vols):
     """Registers a dataset using BROCCOLI."""
     os.environ['BROCCOLI_DIR'] = broccoli_path + '/'
+    if sys.platform == 'linux':
+        os.environ['LD_LIBRARY_PATH'] = opencl_path + ':' + broccoli_path + '/code/BROCCOLI_LIB/clBLASLinux'
     last_unreg_vol = 0
     for anchor_vol in anchor_vol_list:
         for vol in range(last_unreg_vol, anchor_vol):
