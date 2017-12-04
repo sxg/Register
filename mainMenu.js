@@ -48,6 +48,18 @@ module.exports = [
             type: 'separator'
         },
         {
+            role: 'hide'
+        },
+        {
+            role: 'hideothers'
+        },
+        {
+            role: 'unhide'
+        },
+        {
+            type: 'separator'
+        },
+        {
             role: 'quit'
         }]
     },
