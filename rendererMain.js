@@ -57,10 +57,11 @@ imageButton.addEventListener('click', event => {
         filters: [{name: 'Image Dataset', extensions: ['mat', 'h5']}],
         properties: ['openFile']
     }, filePaths => {
+        hideErrors()
         if (filePaths && filePaths[0]) {
             imageFileInput.value = path.basename(filePaths[0])
             imagePath = filePaths[0]
-        } else {
+        } else if (!imagePath) {
             showErrorInputContainer(imageFileInputContainer)
         }
     })
@@ -76,10 +77,11 @@ anchorButton.addEventListener('click', event => {
         filters: [{name: 'Image Dataset', extensions: ['mat', 'h5']}],
         properties: ['openFile']
     }, filePaths => {
+        hideErrors()
         if (filePaths && filePaths[0]) {
             anchorFileInput.value = path.basename(filePaths[0])
             anchorPath = filePaths[0]
-        } else {
+        } else if (!anchorPath) {
             showErrorInputContainer(anchorFileInputContainer)
         }
     })
@@ -93,10 +95,11 @@ anchorNameInput.addEventListener('change', event => {
 outputButton.addEventListener('click', event => {
     dialog.showOpenDialog(remote.getCurrentWindow(), {properties: ['openDirectory']}, 
         filePaths => {
+            hideErrors()
             if (filePaths && filePaths[0]) {
-                outputFolderInput.value = path.basename(filePaths[0])
+                outputFolderInput.value = filePaths[0]
                 outputPath = filePaths[0]
-            } else {
+            } else if (!outputPath) {
                 showErrorInputContainer(outputFolderInputContainer)
             }
         })
