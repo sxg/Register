@@ -7,7 +7,7 @@ const path = require('path')
 const execFile = require('child_process').execFile
 const settings = require('electron-settings')
 
-//// View
+/// View
 // Window
 const window = remote.getCurrentWindow()
 
@@ -36,9 +36,9 @@ const outputButton = document.getElementById('button-output-folder')
 const registerButton = document.getElementById('button-register')
 
 // Loaders
-const registeringImagesLoader = document.getElementById('loader-registering-images') 
+const registeringImagesLoader = document.getElementById('loader-registering-images')
 
-//// Model
+/// Model
 let tempPath
 let imagePath, imageName
 let anchorPath, anchorName
@@ -47,171 +47,176 @@ let broccoliPath, rtvPath, platform, device
 let openclPath
 
 ipcRenderer.once('Message-TempPath', (event, message) => {
-    tempPath = message
+  tempPath = message
 })
 
-//// UI actions
+/// UI actions
 // Browse images button
 imageButton.addEventListener('click', event => {
-    dialog.showOpenDialog(remote.getCurrentWindow(), {
-        filters: [{name: 'Image Dataset', extensions: ['mat', 'h5']}],
-        properties: ['openFile']
-    }, filePaths => {
-        hideErrors()
-        if (filePaths && filePaths[0]) {
-            imageFileInput.value = path.basename(filePaths[0])
-            imagePath = filePaths[0]
-        } else if (!imagePath) {
-            showErrorInputContainer(imageFileInputContainer)
-        }
-    })
+  dialog.showOpenDialog(remote.getCurrentWindow(), {
+    filters: [{name: 'Image Dataset', extensions: ['mat', 'h5']}],
+    properties: ['openFile']
+  }, filePaths => {
+    hideErrors()
+    if (filePaths && filePaths[0]) {
+      imageFileInput.value = path.basename(filePaths[0])
+      imagePath = filePaths[0]
+    } else if (!imagePath) {
+      showErrorInputContainer(imageFileInputContainer)
+    }
+  })
 })
 
 imageNameInput.addEventListener('change', event => {
-    imageName = imageNameInput.value
+  imageName = imageNameInput.value
 })
 
 // Browse anchors button
 anchorButton.addEventListener('click', event => {
-    dialog.showOpenDialog(remote.getCurrentWindow(), {
-        filters: [{name: 'Image Dataset', extensions: ['mat', 'h5']}],
-        properties: ['openFile']
-    }, filePaths => {
-        hideErrors()
-        if (filePaths && filePaths[0]) {
-            anchorFileInput.value = path.basename(filePaths[0])
-            anchorPath = filePaths[0]
-        } else if (!anchorPath) {
-            showErrorInputContainer(anchorFileInputContainer)
-        }
-    })
+  dialog.showOpenDialog(remote.getCurrentWindow(), {
+    filters: [{name: 'Image Dataset', extensions: ['mat', 'h5']}],
+    properties: ['openFile']
+  }, filePaths => {
+    hideErrors()
+    if (filePaths && filePaths[0]) {
+      anchorFileInput.value = path.basename(filePaths[0])
+      anchorPath = filePaths[0]
+    } else if (!anchorPath) {
+      showErrorInputContainer(anchorFileInputContainer)
+    }
+  })
 })
 
 anchorNameInput.addEventListener('change', event => {
-    anchorName = anchorNameInput.value
+  anchorName = anchorNameInput.value
 })
 
 // Browse output folder button
 outputButton.addEventListener('click', event => {
-    dialog.showOpenDialog(remote.getCurrentWindow(), {properties: ['openDirectory']}, 
-        filePaths => {
-            hideErrors()
-            if (filePaths && filePaths[0]) {
-                outputFolderInput.value = filePaths[0]
-                outputPath = filePaths[0]
-            } else if (!outputPath) {
-                showErrorInputContainer(outputFolderInputContainer)
-            }
-        })
+  dialog.showOpenDialog(remote.getCurrentWindow(), {properties: ['openDirectory']},
+    filePaths => {
+      hideErrors()
+      if (filePaths && filePaths[0]) {
+        outputFolderInput.value = filePaths[0]
+        outputPath = filePaths[0]
+      } else if (!outputPath) {
+        showErrorInputContainer(outputFolderInputContainer)
+      }
+    })
 })
 
 // Register button
 registerButton.addEventListener('click', event => {
-    hideErrors()
-    startLoader()
+  hideErrors()
+  startLoader()
 
-    const err = loadPreferences()
-    if (!err) {
-        pyRegister = execFile(path.join(__dirname, 'dist', 'register', 'register'),
-            [tempPath, broccoliPath, rtvPath, platform, device, imagePath, imageName, anchorPath, anchorName, outputPath, openclPath], 
-                (err, stdout, stderr) => {
-                    stopLoader()
+  const err = loadPreferences()
+  if (!err) {
+    execFile(path.join(__dirname, 'dist', 'register', 'register'),
+      [tempPath, broccoliPath, rtvPath, platform, device, imagePath, imageName, anchorPath, anchorName, outputPath, openclPath],
+      (err, stdout, stderr) => {
+        if (err) {
+          stopLoader()
 
-                    if (stderr) {
-                        console.log(new Error(stderr))
-                        
-                        switch (stderr.trim()) {
-                            case 'RTVPath':
-                            case 'BROCCOLIPath':
-                            case 'OpenCLPath':
-                                showErrorMessage('Update settings!')
-                                break
-                            case 'ImagePath':
-                                showErrorInputContainer(imageFileInputContainer)
-                                break
-                            case 'ImageName':
-                                showErrorInputContainer(imageNameInputContainer)
-                                break
-                            case 'AnchorPath':
-                                showErrorInputContainer(anchorFileInputContainer)
-                                break
-                            case 'AnchorName':
-                                showErrorInputContainer(anchorNameInputContainer)
-                                break
-                            case 'OutputPath':
-                                showErrorInputContainer(outputFolderInputContainer)
-                                break
-                        }
-                    }
-                    if (stdout) {
-                        console.log(stdout)
-                    }
-                })
-    } else {
-        stopLoader()
-        showErrorMessage(err)
-    }
+          if (stderr) {
+            console.log(new Error(stderr))
+
+            switch (stderr.trim()) {
+              case 'RTVPath':
+              case 'BROCCOLIPath':
+              case 'OpenCLPath':
+                showErrorMessage('Update settings!')
+                break
+              case 'ImagePath':
+                showErrorInputContainer(imageFileInputContainer)
+                break
+              case 'ImageName':
+                showErrorInputContainer(imageNameInputContainer)
+                break
+              case 'AnchorPath':
+                showErrorInputContainer(anchorFileInputContainer)
+                break
+              case 'AnchorName':
+                showErrorInputContainer(anchorNameInputContainer)
+                break
+              case 'OutputPath':
+                showErrorInputContainer(outputFolderInputContainer)
+                break
+            }
+          }
+        } else {
+          console.log(new Error(err))
+        }
+
+        if (stdout) {
+          console.log(stdout)
+        }
+      })
+  } else {
+    stopLoader()
+    showErrorMessage(err)
+  }
 })
 
-//// Helpers
+/// Helpers
 
-const loadPreferences = function() {
-    if (settings.has('BROCCOLIPath')) {
-        broccoliPath = settings.get('BROCCOLIPath')
-    } else {
-        return 'Set the BROCCOLI path in settings!'
-    }
-    if (settings.has('RTVPath')) {
-        rtvPath = settings.get('RTVPath')
-    } else {
-        return 'Set the BROCCOLI path in settings!'
-    }
-    if (settings.has('OpenCLPath')) {
-        openclPath = settings.get('OpenCLPath')
-    } else if (process.platform == 'linux') {
-        return 'Set the OpenCL Path in settings!'
-    }
-    if (settings.has('OpenCLPlatform')) {
-        platform = settings.get('OpenCLPlatform')
-    } else {
-        return 'Set the platform in settings!'
-    }
-    if (settings.has('OpenCLDevice')) {
-        device = settings.get('OpenCLDevice')
-    } else {
-        return 'Set the device in settings!'
-    }
+const loadPreferences = function () {
+  if (settings.has('BROCCOLIPath')) {
+    broccoliPath = settings.get('BROCCOLIPath')
+  } else {
+    return 'Set the BROCCOLI path in settings!'
+  }
+  if (settings.has('RTVPath')) {
+    rtvPath = settings.get('RTVPath')
+  } else {
+    return 'Set the BROCCOLI path in settings!'
+  }
+  if (settings.has('OpenCLPath')) {
+    openclPath = settings.get('OpenCLPath')
+  } else if (process.platform === 'linux') {
+    return 'Set the OpenCL Path in settings!'
+  }
+  if (settings.has('OpenCLPlatform')) {
+    platform = settings.get('OpenCLPlatform')
+  } else {
+    return 'Set the platform in settings!'
+  }
+  if (settings.has('OpenCLDevice')) {
+    device = settings.get('OpenCLDevice')
+  } else {
+    return 'Set the device in settings!'
+  }
 }
 
-const hideErrors = function() {
-    imageFileInputContainer.classList.remove('error')
-    imageNameInputContainer.classList.remove('error')
-    anchorFileInputContainer.classList.remove('error')
-    anchorNameInputContainer.classList.remove('error')
-    outputFolderInputContainer.classList.remove('error')
-    headerErrorMessage.innerHTML = ''
-    errorMessage.style.display = 'none'
-    const size = window.getSize()
-    window.setSize(size[0], 375, true)
+const hideErrors = function () {
+  imageFileInputContainer.classList.remove('error')
+  imageNameInputContainer.classList.remove('error')
+  anchorFileInputContainer.classList.remove('error')
+  anchorNameInputContainer.classList.remove('error')
+  outputFolderInputContainer.classList.remove('error')
+  headerErrorMessage.innerHTML = ''
+  errorMessage.style.display = 'none'
+  const size = window.getSize()
+  window.setSize(size[0], 375, true)
 }
 
-const showErrorMessage = function(message) {
-    headerErrorMessage.innerHTML = message
-    errorMessage.style.display = 'inline-block' 
-    const size = window.getSize()
-    window.setSize(size[0], Math.max(size[1], 475), true) 
+const showErrorMessage = function (message) {
+  headerErrorMessage.innerHTML = message
+  errorMessage.style.display = 'inline-block'
+  const size = window.getSize()
+  window.setSize(size[0], Math.max(size[1], 475), true)
 }
 
-const showErrorInputContainer = function(inputContainer) {
-    inputContainer.classList.add('error')
+const showErrorInputContainer = function (inputContainer) {
+  inputContainer.classList.add('error')
 }
 
-const startLoader = function() {
-    registeringImagesLoader.classList.remove('disabled')
-    registeringImagesLoader.classList.add('active')
+const startLoader = function () {
+  registeringImagesLoader.classList.remove('disabled')
+  registeringImagesLoader.classList.add('active')
 }
 
-const stopLoader = function() {
-    registeringImagesLoader.classList.remove('active')
-    registeringImagesLoader.classList.add('disabled')
+const stopLoader = function () {
+  registeringImagesLoader.classList.remove('active')
+  registeringImagesLoader.classList.add('disabled')
 }
