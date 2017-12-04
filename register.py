@@ -69,6 +69,11 @@ def main(args):
     output_path = os.path.join(output_path, 'registeredImages.mat')
     sio.savemat(output_path, {'registeredImages': reg_img})
 
+    # Empty the temp folder
+    files = [f for f in os.listdir(tmp_path)]
+    for file in files:
+        os.remove(os.path.join(tmp_path, file))
+
 
 def register_volumes(rtv_path, platform, device, path, vol, anchor_vol):
     """Registers two volumes using BROCCOLI."""
