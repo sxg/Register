@@ -10,3 +10,4 @@ Register-darwin-x64/
 Register-linux-x64/
 
 Linux Installer/
+/.jshintrc
