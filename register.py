@@ -55,7 +55,7 @@ def main(args):
     img = np.absolute(img_data[img_name])
     img = img / img.flatten().max()
     n_vols = img.shape[3]
-    anchor_vol_list = np.squeeze(anchor_data[anchor_name]).astype(int)
+    anchor_vol_list = np.squeeze(anchor_data[anchor_name]).tolist()
     if not isinstance(anchor_vol_list, list):
         anchor_vol_list = [anchor_vol_list]
 
