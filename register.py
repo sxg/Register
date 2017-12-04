@@ -4,6 +4,7 @@ import os
 import scipy.io as sio
 import numpy as np
 import nibabel as nib
+import hdf5storage
 
 def main(args):
     """Runs registration using BROCCOLI."""
@@ -41,8 +42,8 @@ def main(args):
         sys.exit('OutputPath')
 
     # Load the data
-    img_data = sio.loadmat(img_path)
-    anchor_data = sio.loadmat(anchor_path)
+    img_data = hdf5storage.loadmat(img_path)
+    anchor_data = hdf5storage.loadmat(anchor_path)
 
     # Validate the dataset names
     if not img_name in img_data:
@@ -67,7 +68,7 @@ def main(args):
 
     # Save the registered data to .mat
     output_path = os.path.join(output_path, 'registeredImages.mat')
-    sio.savemat(output_path, {'registeredImages': reg_img})
+    hdf5storage.savemat(output_path, {'registeredImages': reg_img})
 
     # Empty the temp folder
     files = [f for f in os.listdir(tmp_path)]
