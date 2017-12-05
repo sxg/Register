@@ -1,45 +1,34 @@
-# electron-quick-start
+# Register
 
-**Clone and run for a quick way to see Electron in action.**
+This is an [Electron][1] app that performs image registration using [BROCCOLI][2]. This app is compatible with macOS and Linux. Windows support is limited by BROCCOLI but may be available in the future.
 
-This is a minimal Electron application based on the [Quick Start Guide](http://electron.atom.io/docs/tutorial/quick-start) within the Electron documentation.
+Register supports `.mat` and `.h5` files as input and will create an output file named `registeredImages.mat`.
 
-**Use this app along with the [Electron API Demos](http://electron.atom.io/#get-started) app for API code examples to help you get started.**
+## Installation
 
-A basic Electron application needs just these files:
+To run this app, you'll need Python 3 with these libraries:
 
-- `package.json` - Points to the app's main file and lists its details and dependencies.
-- `main.js` - Starts the app and creates a browser window to render HTML. This is the app's **main process**.
-- `index.html` - A web page to render. This is the app's **renderer process**.
+- scipy
+- numpy
+- nibabel
+- hdf5storage
 
-You can learn more about each of these components within the [Quick Start Guide](http://electron.atom.io/docs/tutorial/quick-start).
+Once these are installed, run `pyinstaller register.py` to create the executable Python script. If an error referencing `scipy._lib.messagestream` appears, then add `scipy._lib.messagestream` as a hidden import in `register.spec`, and then run `pyinstaller register.spec`. After this, run `npm install` and `electron .` to run the app.
 
-## To Use
+To create a macOS app, just install [electron-packager][3] and run `electron-packager .`. This will create a new directory containing an executable `Register.app` file. On Linux, install electron-packager and [electron-installer-debian][4] and run `electron-packager .` followed by `electron-installer-debian --src <Path to Register.app> --dest . --arch amd64`. This will create an installable `.deb` file.
 
-To clone and run this repository you'll need [Git](https://git-scm.com) and [Node.js](https://nodejs.org/en/download/) (which comes with [npm](http://npmjs.com)) installed on your computer. From your command line:
+## Author
 
-```bash
-# Clone this repository
-git clone https://github.com/electron/electron-quick-start
-# Go into the repository
-cd electron-quick-start
-# Install dependencies
-npm install
-# Run the app
-npm start
-```
-
-Note: If you're using Linux Bash for Windows, [see this guide](https://www.howtogeek.com/261575/how-to-run-graphical-linux-desktop-applications-from-windows-10s-bash-shell/) or use `node` from the command prompt.
-
-## Resources for Learning Electron
-
-- [electron.atom.io/docs](http://electron.atom.io/docs) - all of Electron's documentation
-- [electron.atom.io/community/#boilerplates](http://electron.atom.io/community/#boilerplates) - sample starter apps created by the community
-- [electron/electron-quick-start](https://github.com/electron/electron-quick-start) - a very basic starter Electron app
-- [electron/simple-samples](https://github.com/electron/simple-samples) - small applications with ideas for taking them further
-- [electron/electron-api-demos](https://github.com/electron/electron-api-demos) - an Electron app that teaches you how to use Electron
-- [hokein/electron-sample-apps](https://github.com/hokein/electron-sample-apps) - small demo apps for the various Electron APIs
+Satyam Ghodasara ([@sxg][5])—[sdg46@case.edu][6]
 
 ## License
 
-[CC0 1.0 (Public Domain)](LICENSE.md)
+[CC0 1.0 (Public Domain)][7]
+
+[1]:	https://github.com/electron/electron "Electron"
+[2]:	https://github.com/wanderine/BROCCOLI "BROCCOLI"
+[3]:    https://github.com/electron-userland/electron-packager "electron-packager"
+[4]:    https://github.com/unindented/electron-installer-debian "electron-installer-debian"
+[5]:	https://github.com/sxg "sxg"
+[6]:	mailto:sdg46@case.edu
+[7]:	LICENSE.md
