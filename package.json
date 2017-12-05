@@ -26,6 +26,7 @@
   },
   "dependencies": {
     "electron-settings": "^3.1.4",
+    "jquery": "^3.2.1",
     "semantic-ui": "^2.2.13"
   }
 }
