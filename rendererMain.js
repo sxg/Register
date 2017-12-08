@@ -115,36 +115,36 @@ registerButton.addEventListener('click', event => {
     execFile(path.join(__dirname, 'dist', 'register', 'register'),
       [tempPath, broccoliPath, rtvPath, platform, device, imagePath, imageName, anchorPath, anchorName, outputPath, openclPath],
       (err, stdout, stderr) => {
-        if (err) {
-          stopLoader()
+        stopLoader()
 
-          if (stderr) {
-            console.log(new Error(stderr))
+        if (stderr) {
+          console.log(new Error(stderr))
 
-            switch (stderr.trim()) {
-              case 'RTVPath':
-              case 'BROCCOLIPath':
-              case 'OpenCLPath':
-                showErrorMessage('Update settings!')
-                break
-              case 'ImagePath':
-                showErrorInputContainer(imageFileInputContainer)
-                break
-              case 'ImageName':
-                showErrorInputContainer(imageNameInputContainer)
-                break
-              case 'AnchorPath':
-                showErrorInputContainer(anchorFileInputContainer)
-                break
-              case 'AnchorName':
-                showErrorInputContainer(anchorNameInputContainer)
-                break
-              case 'OutputPath':
-                showErrorInputContainer(outputFolderInputContainer)
-                break
-            }
+          switch (stderr.trim()) {
+            case 'RTVPath':
+            case 'BROCCOLIPath':
+            case 'OpenCLPath':
+              showErrorMessage('Update settings!')
+              break
+            case 'ImagePath':
+              showErrorInputContainer(imageFileInputContainer)
+              break
+            case 'ImageName':
+              showErrorInputContainer(imageNameInputContainer)
+              break
+            case 'AnchorPath':
+              showErrorInputContainer(anchorFileInputContainer)
+              break
+            case 'AnchorName':
+              showErrorInputContainer(anchorNameInputContainer)
+              break
+            case 'OutputPath':
+              showErrorInputContainer(outputFolderInputContainer)
+              break
           }
-        } else {
+        }
+
+        if (err) {
           console.log(new Error(err))
         }
 
