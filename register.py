@@ -57,6 +57,7 @@ def main(args):
     anchor_vol_list = np.squeeze(anchor_data[anchor_name]).tolist()
     if not isinstance(anchor_vol_list, list):
         anchor_vol_list = [anchor_vol_list]
+    anchor_vol_list[:] = [x - 1 for x in anchor_vol_list] # Convert MATLAB indexes to Python indexes
 
     # Convert .mat to .nii
     mat_to_nii(img, tmp_path)
