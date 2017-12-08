@@ -1,7 +1,6 @@
 """Registers data using BROCCOLI."""
 
 import os
-import scipy.io as sio
 import numpy as np
 import nibabel as nib
 import hdf5storage
